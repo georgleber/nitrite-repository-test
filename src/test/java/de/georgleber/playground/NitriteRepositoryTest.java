@@ -8,7 +8,7 @@ import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.WriteResult;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,10 +25,14 @@ public class NitriteRepositoryTest
         this.nitrite = Nitrite.builder().compressed().filePath("test.db").openOrCreate();
     }
 
-    @After
-    public void deleteDb()
+    @AfterClass
+    public static void deleteDb()
     {
-        new File("test.db").delete();
+        File db = new File("test.db");
+        if (db.exists())
+        {
+            db.deleteOnExit();
+        }
     }
 
     @Test
